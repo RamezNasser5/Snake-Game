@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     Vector3 direction = new Vector3(1, 0, 0);
     bool isLocked = false;
     public bool gameOver = false;
+    List<Vector3> extensions = new List<Vector3>();
     void Start()
     {
         for (int i = 0; i < startingCount; i++)
@@ -32,25 +33,42 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.2f);
         if (gameOver) yield break;
+
+        bool growSnake =false;
+        if (extensions.Count > 0 && extensions[0] == positions[0])
+        {
+            growSnake = true;
+        }
+
         positions.RemoveAt(0);
         positions.Add(positions[positions.Count - 1] + direction);
         for (int i = 0; i < positions.Count; i++)
         {
             snake[i].transform.position = positions[i];
         }
+
+        if (growSnake)
+        {
+            positions.Insert(0,extensions[0]);
+            GameObject newSnakePiece = Instantiate(snakePiece);
+            newSnakePiece.transform.position = positions[0];
+            snake.Insert(0,newSnakePiece);
+            extensions.RemoveAt(0);
+        }
+
         isLocked = false;
         StartCoroutine(MoveSnake());
     }
 
     IEnumerator CreateFood()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(1f);
         bool validLocation = true;
         int x, z;
         do
         {
-            x = UnityEngine.Random.Range(-16, 0);
-            z = UnityEngine.Random.Range(-10, 10);
+            x = UnityEngine.Random.Range(-8, 8);
+            z = UnityEngine.Random.Range(-12, 12);
 
             for (int i = 0; i < positions.Count; i++)
             {
@@ -62,10 +80,16 @@ public class GameManager : MonoBehaviour
         } while (validLocation == false);
         GameObject newFood = Instantiate(foodPiece);
         newFood.transform.position = new Vector3(x, 0, z);
-        StartCoroutine(CreateFood());
+        
 
 
     }
+
+    public void eatFood(Vector3 position) {
+        extensions.Add(position);
+        StartCoroutine(CreateFood());
+    }
+
     void Update()
     {
         if (isLocked == false)

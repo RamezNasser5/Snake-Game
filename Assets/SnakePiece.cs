@@ -16,5 +16,10 @@ public class SnakePiece : MonoBehaviour
         {
             GameObject.FindObjectOfType<GameManager>().gameOver = true;
         }
+        if (collider.tag == "Food")
+        {
+            GameObject.FindObjectOfType<GameManager>().eatFood(collider.gameObject.transform.position);
+            Destroy(collider.gameObject);
+        }
     }
 }
