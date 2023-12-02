@@ -259,6 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snakePiece: {fileID: 62715987724257268, guid: 72fa233b1a2e9704898c58afc177bd2b, type: 3}
   foodPiece: {fileID: 8962410868895578029, guid: 707a411c09ec7c6459387d69eac944e2, type: 3}
+  obstacle: {fileID: 6467892954316778949, guid: b1cbc9ed0398e714f93b354fa4e6e90d, type: 3}
   gameOver: 0
 --- !u!4 &541595729
 Transform:
@@ -906,7 +907,7 @@ Transform:
   m_GameObject: {fileID: 1998437919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "59Q1AjkmorwgQkQGaHCtcRCl3ivW6uHs1FRv9cuLPJMLc6LKQy1CZ89RBsurolI4akLXDYeiYvS7sj2MUqQlJQ==",
+  "dgSpecHash": "Y6lb0ScQBhxQpNpb4KSf7ph7SxoCXv39SJFSfNymYdaf+WSrCR3lxPTWgD3HeeYhVflhzbFjUJYNxKXcTyV3dA==",
   "success": true,
-  "projectFilePath": "D:\\programers\\material\\level_4\\computer animation\\Snake Game\\Assembly-CSharp.csproj",
+  "projectFilePath": "D:\\programers\\material\\Snake-Game\\Assembly-CSharp.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

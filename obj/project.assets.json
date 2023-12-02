@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\programers\\material\\level_4\\computer animation\\Snake Game\\Assembly-CSharp.csproj",
+      "projectUniqueName": "D:\\programers\\material\\Snake-Game\\Assembly-CSharp.csproj",
       "projectName": "Assembly-CSharp",
-      "projectPath": "D:\\programers\\material\\level_4\\computer animation\\Snake Game\\Assembly-CSharp.csproj",
+      "projectPath": "D:\\programers\\material\\Snake-Game\\Assembly-CSharp.csproj",
       "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-      "outputPath": "D:\\programers\\material\\level_4\\computer animation\\Snake Game\\obj\\",
+      "outputPath": "D:\\programers\\material\\Snake-Game\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config"
