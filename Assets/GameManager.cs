@@ -1,8 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,13 +11,15 @@ public class GameManager : MonoBehaviour
     int startingCount = 20;
     List<Vector3> positions = new List<Vector3>();
     List<GameObject> snake = new List<GameObject>();
-    Vector3 direction = new Vector3(0, 0, 0.15f);
     public GameObject obstacle;
 
     public bool gameOver = false;
     List<Vector3> extensions = new List<Vector3>();
     int levelWidth = 16;
     int levelHight = 24;
+    public int eatedFoodCount = 0;
+    public TextMeshProUGUI text;
+
     void Start()
     {
         for (int i = 0; i < startingCount; i++)
@@ -36,26 +38,27 @@ public class GameManager : MonoBehaviour
             {
                 newSnakePiece.tag = "Untagged";
             }
-            {
 
-            }
             snake.Add(newSnakePiece);
         }
+
         int x, z;
         for (int i = 0; i < 20; i++)
         {
             GameObject newObstacle = Instantiate(obstacle);
-            bool valid = true;
-
+            bool valid;
             do
             {
                 valid = true;
                 x = UnityEngine.Random.Range(-8, 8);
                 z = UnityEngine.Random.Range(-12, 12);
-                if(x>-levelWidth/4&&x<levelWidth/4&&z>-levelHight/4&&z<levelHight/4) valid=false ;
+                if (x > -levelWidth / 4 && x < levelWidth / 4 &&
+                    z > -levelHight / 4 && z < levelHight / 4)
+                    valid = false;
             } while (valid == false);
             newObstacle.transform.position = new Vector3(x, 0, z);
-            newObstacle.transform.localScale = new Vector3(UnityEngine.Random.Range(1, 4), 1, UnityEngine.Random.Range(1, 4));
+            newObstacle.transform.localScale = new Vector3(UnityEngine.Random.Range(1, 4),
+                1, UnityEngine.Random.Range(1, 4));
         }
 
         StartCoroutine(MoveSnake());
@@ -89,10 +92,8 @@ public class GameManager : MonoBehaviour
             extensions.RemoveAt(0);
         }
 
-
         StartCoroutine(MoveSnake());
     }
-
 
     IEnumerator CreateFood()
     {
@@ -105,29 +106,43 @@ public class GameManager : MonoBehaviour
         newFood.transform.position = new Vector3(x, 0, z);
 
         if (!gameOver) StartCoroutine(CreateFood());
-
     }
 
     public void eatFood(Vector3 position)
+{
+    extensions.Add(position);
+
+    // Increment the eatedFoodCount
+    eatedFoodCount++;
+
+    // Update the text immediately after incrementing the count
+    if (text != null)
     {
-        extensions.Add(position);
-
+        text.text = $"{eatedFoodCount}";
+        TMPro.TMP_TextInfo textInfo = text.textInfo;
+        text.ForceMeshUpdate();
     }
+}
 
-    void Update()
+
+
+    void LateUpdate()
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             snake[snake.Count - 1].transform.Rotate(new Vector3(0, -Time.deltaTime * 260, 0));
-
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
             snake[snake.Count - 1].transform.Rotate(new Vector3(0, Time.deltaTime * 260, 0));
-
         }
         if (Input.GetKeyDown(KeyCode.Backspace)) SceneManager.LoadScene("SampleScene");
     }
-
+    void OnDisable()
+    {
+        // Reset the eatedFoodCount to 0 when the script is disabled (e.g., when the game stops)
+        eatedFoodCount = 0;
+    }
 
 }
+
