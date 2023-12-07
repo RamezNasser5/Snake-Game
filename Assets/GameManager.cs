@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     int levelHight = 24;
     public int eatedFoodCount = 0;
     public TextMeshProUGUI text;
+    int winLevel = 5;
+    int timerCount = 10;
+    public TextMeshProUGUI timer;
 
     void Start()
     {
@@ -98,7 +101,10 @@ public class GameManager : MonoBehaviour
     IEnumerator CreateFood()
     {
         yield return new WaitForSeconds(3f);
-
+        if (timerCount >0) {
+            timerCount--;
+        }
+        
         int x, z;
         x = UnityEngine.Random.Range(-8, 8);
         z = UnityEngine.Random.Range(-12, 12);
@@ -109,25 +115,46 @@ public class GameManager : MonoBehaviour
     }
 
     public void eatFood(Vector3 position)
-{
-    extensions.Add(position);
-
-    // Increment the eatedFoodCount
-    eatedFoodCount++;
-
-    // Update the text immediately after incrementing the count
-    if (text != null)
     {
-        text.text = $"{eatedFoodCount}";
-        TMPro.TMP_TextInfo textInfo = text.textInfo;
-        text.ForceMeshUpdate();
+        extensions.Add(position);
+
+
+        eatedFoodCount++;
+
+
+        if (text != null)
+        {
+            if (eatedFoodCount == winLevel)
+            {
+                text.text = "You Win";
+                GameObject.FindObjectOfType<GameManager>().gameOver = true;
+            }
+            else
+            {
+                text.text = $"{eatedFoodCount} / {winLevel}";
+            }
+
+            text.ForceMeshUpdate();
+        }
     }
-}
 
 
 
     void LateUpdate()
     {
+        if(timerCount > 0) {
+            timer.text = $"{timerCount}";
+        }
+        else
+        {
+            timer.text = $"Time Out";
+            if (eatedFoodCount < winLevel)
+            {
+                text.text = "You Lose";
+            }
+            GameObject.FindObjectOfType<GameManager>().gameOver = true;
+        }
+        
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             snake[snake.Count - 1].transform.Rotate(new Vector3(0, -Time.deltaTime * 260, 0));
@@ -137,10 +164,10 @@ public class GameManager : MonoBehaviour
             snake[snake.Count - 1].transform.Rotate(new Vector3(0, Time.deltaTime * 260, 0));
         }
         if (Input.GetKeyDown(KeyCode.Backspace)) SceneManager.LoadScene("SampleScene");
+        
     }
     void OnDisable()
     {
-        // Reset the eatedFoodCount to 0 when the script is disabled (e.g., when the game stops)
         eatedFoodCount = 0;
     }
 
